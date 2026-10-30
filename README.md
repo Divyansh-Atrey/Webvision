@@ -2,6 +2,8 @@
 
 ## Team Name - Code Commiters
 
+## Prototype Link : https://swasth-queue.vercel.app/
+
 ## 📌 The Real-World Problem
 In urban and semi-urban government hospitals and charitable clinics, the daily Outpatient Department (OPD) process suffers from major inefficiencies:
 1. *Morning Stampedes:* Patients stand in massive physical lines starting as early as 6:00 AM just to get a paper token.
