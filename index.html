@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SwasthQueue — Smart Token &amp; Remote Waiting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="auth-gateway" class="auth-screen">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">SQ</div>
+        <div>
+          <div class="brand-title">SwasthQueue - Queue Live</div>
+          <div class="brand-sub">Smart Token &amp; Remote Waiting System for Clinics</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="btn-open-code-auth" type="button" class="btn btn-secondary">View Files</button>
+        <button id="btn-skip-auth-split" type="button" class="btn btn-primary">Launch Demo</button>
+      </div>
+    </header>
+
+    <div class="auth-grid">
+      <div class="hero">
+        <span class="badge badge-success">
+          <span class="dot"></span>
+          Zero-Install Mobile Web App • Works on 2G/4G
+        </span>
+
+        <h1 class="hero-title">
+          End Crowded OPD Corridors &amp; <span>Blind Waiting.</span>
+        </h1>
+
+        <p class="hero-desc">
+          Get your digital walk-in token in seconds, track the doctor's chamber queue live from home or a nearby tea stall, and get an automatic alert when you are <strong>3 tokens away</strong>.
+        </p>
+
+        <div class="preview-card">
+          <div class="flex-between">
+            <div>
+              <div class="eyebrow">Live OPD Status • Janata Charitable Clinic</div>
+              <div class="room-title">Room 1 — Dr. R. Sharma (General Medicine)</div>
+            </div>
+            <span class="badge badge-success">Active Now</span>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-box">
+              <span class="stat-label">Currently Serving</span>
+              <strong id="auth-live-serving" class="stat-val text-success">#42</strong>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Patients Waiting</span>
+              <strong id="auth-live-waiting" class="stat-val">6</strong>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Next New Token</span>
+              <strong id="auth-live-next-token" class="stat-val text-warning">#49</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-label">Instant 1-Click Demo Access:</div>
+        <div class="demo-grid">
+          <button id="btn-quick-login-patient" type="button" class="demo-card">
+            <span class="demo-tag text-teal">Patient Demo Login →</span>
+            <strong class="demo-title">Rajesh Kumar (Token #48)</strong>
+            <span class="demo-sub">5 patients ahead • ~25 mins wait</span>
+          </button>
+
+          <button id="btn-quick-login-staff" type="button" class="demo-card">
+            <span class="demo-tag text-indigo">Staff / Doctor Login →</span>
+            <strong class="demo-title">Compounder Desk (Room 1)</strong>
+            <span class="demo-sub">Call Next Patient &amp; manage queue</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="auth-box">
+        <div class="tabs">
+          <button id="auth-tab-login" type="button" class="tab-btn active">Sign In</button>
+          <button id="auth-tab-register" type="button" class="tab-btn">Register</button>
+        </div>
+
+        <div class="card-body">
+          <label class="label">Select Portal Role</label>
+          <div class="role-grid">
+            <button id="role-btn-patient" type="button" class="role-btn active">Patient / Family</button>
+            <button id="role-btn-staff" type="button" class="role-btn">Clinic Staff / Doctor</button>
+          </div>
+
+          <form id="form-auth-login">
+            <div class="field">
+              <div class="flex-between">
+                <label id="login-id-label" for="auth-login-identifier" class="label">Mobile Number or Token # *</label>
+                <button id="btn-fill-login-demo" type="button" class="btn btn-sm">Auto-Fill Demo</button>
+              </div>
+              <input id="auth-login-identifier" type="text" required value="+91 98112 48048" class="input" placeholder="e.g. +91 98112 48048">
+            </div>
+
+            <div class="field">
+              <label for="auth-login-secret" class="label">4-Digit PIN / Password *</label>
+              <input id="auth-login-secret" type="password" required value="1234" class="input" placeholder="Enter 4-digit PIN">
+            </div>
+
+            <div id="login-patient-token-picker" class="field">
+              <label for="auth-login-token-select" class="label">Link to Active OPD Token</label>
+              <select id="auth-login-token-select" class="select">
+                <option value="48">Token #48 — Rajesh Kumar (5 ahead • ~25m wait)</option>
+                <option value="45">Token #45 — Mohd. Irfan (3 away • Proximity Alert)</option>
+                <option value="43">Token #43 — Vikramaditya Singh (Next Up • 1 away)</option>
+                <option value="42">Token #42 — Smt. Kamla Devi (Serving Now)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              <span id="login-submit-label">Login &amp; Open Live Queue Tracker</span> →
+            </button>
+
+            <div class="form-footer">
+              Need a new walk-in token?
+              <button id="link-to-register" type="button" class="btn btn-sm">Register &amp; Get Token</button>
+            </div>
+          </form>
+
+          <form id="form-auth-register" class="hidden">
+            <div class="grid-2 field">
+              <div>
+                <label for="auth-reg-name" class="label">Full Name *</label>
+                <input id="auth-reg-name" type="text" required class="input" placeholder="e.g. Ankit Sharma">
+              </div>
+              <div>
+                <label for="auth-reg-phone" class="label">Mobile Number *</label>
+                <input id="auth-reg-phone" type="tel" required class="input" placeholder="e.g. +91 98765 12345">
+              </div>
+            </div>
+
+            <div id="reg-patient-fields">
+              <div class="grid-2 field">
+                <div>
+                  <label for="auth-reg-category" class="label">Priority Category</label>
+                  <select id="auth-reg-category" class="select">
+                    <option value="General">General Walk-In</option>
+                    <option value="Senior Citizen">Senior Citizen (60+)</option>
+                    <option value="Maternal / Child">Maternal / Child</option>
+                    <option value="Urgent Care">High Fever / Acute Pain</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="auth-reg-location" class="label">Waiting Spot</label>
+                  <select id="auth-reg-location" class="select">
+                    <option value="Nearby Tea Stall / Shade">Nearby Tea Stall</option>
+                    <option value="Parked Vehicle / Auto">In Car / Auto</option>
+                    <option value="At Home (10 mins away)">At Home</option>
+                    <option value="OPD Hall">Inside OPD Hall</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="auth-reg-symptoms" class="label">Reason for Visit / Symptoms</label>
+                <input id="auth-reg-symptoms" type="text" class="input" placeholder="e.g. Viral fever, BP checkup">
+              </div>
+            </div>
+
+            <div id="reg-staff-fields" class="field hidden">
+              <label for="auth-reg-chamber" class="label">Assigned OPD Chamber</label>
+              <select id="auth-reg-chamber" class="select">
+                <option value="doc1">Room 1 — Dr. R. Sharma (General Medicine)</option>
+                <option value="doc2">Room 2 — Dr. A. Nair (Pediatrics)</option>
+                <option value="doc3">Room 3 — Dr. K. Verma (Orthopedics)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="auth-reg-pin" class="label">Set 4-Digit Quick PIN *</label>
+              <input id="auth-reg-pin" type="password" required value="1234" class="input">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block">
+              <span id="register-submit-label">Register &amp; Generate Instant OPD Token</span> →
+            </button>
+
+            <div class="form-footer">
+              Already registered?
+              <button id="link-to-login" type="button" class="btn btn-sm">Sign In Here</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <footer class="auth-footer">
+      <div>OPD Queue Live — Built for Local Clinics, Trusts &amp; Hospitals</div>
+      <div>Zero-Install Web App</div>
+    </footer>
+  </div>
+
+  <div id="app-shell" class="hidden">
+    <header class="navbar">
+      <div class="nav-wrap">
+        <div class="brand">
+          <div class="logo">OPD</div>
+          <div>
+            <div class="brand-row">
+              <span class="brand-title">OPD Queue Live</span>
+              <span class="badge badge-success"><span class="dot"></span> PWA</span>
+            </div>
+            <div class="brand-sub">Janata Charitable Clinic • Smart Token &amp; Remote Waiting</div>
+          </div>
+        </div>
+
+        <nav class="nav-tabs" aria-label="View Modes">
+          <button id="tab-split" type="button" class="tab active">Split Live Demo</button>
+          <button id="tab-patient" type="button" class="tab">Patient Tracker</button>
+          <button id="tab-checkin" type="button" class="tab">QR Check-In</button>
+          <button id="tab-staff" type="button" class="tab">Staff Dashboard</button>
+        </nav>
+
+        <div class="nav-actions">
+          <button id="btn-open-code-modal" type="button" class="btn btn-secondary">Code Files</button>
+          <button id="btn-audio-toggle" type="button" class="btn">
+            <span id="audio-icon">🔊</span>
+            <span id="audio-label">Sound On</span>
+          </button>
+          <button id="btn-open-qr-modal" type="button" class="btn btn-primary">Clinic QR</button>
+          <button id="btn-reset-demo" type="button" class="btn">Reset Demo</button>
+          <div id="user-session-badge" class="badge badge-muted">
+            <span id="session-user-icon">👤</span>
+            <span id="session-user-name">Rajesh Kumar</span>
+          </div>
+          <button id="btn-logout" type="button" class="btn btn-danger">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="status-bar">
+      <div class="status-wrap">
+        <div class="status-group">
+          <div class="chamber-select-wrap">
+            <span class="text-muted">Active Chamber:</span>
+            <select id="select-doctor-chamber" class="select-dark">
+              <option id="doc1" value="doc1">Room 1 — Dr. R. Sharma (General Medicine)</option>
+              <option id="doc2" value="doc2">Room 2 — Dr. A. Nair (Pediatrics &amp; Family)</option>
+              <option id="doc3" value="doc3">Room 3 — Dr. K. Verma (Orthopedics)</option>
+            </select>
+          </div>
+          <div class="pace-control">
+            <span class="text-muted">Avg Consult:</span>
+            <button id="btn-dec-pace" type="button" class="btn btn-xs">−</button>
+            <strong id="stat-avg-mins" class="text-warning">5 mins/patient</strong>
+            <button id="btn-inc-pace" type="button" class="btn btn-xs">+</button>
+          </div>
+        </div>
+
+        <div class="status-group">
+          <div>Now Serving: <strong id="strip-serving-token" class="text-success">#42</strong></div>
+          <div>Waiting in Queue: <strong id="strip-waiting-count">6</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <main class="container">
+      <section id="panel-checkin" class="panel hidden">
+        <div class="card">
+          <div class="card-header primary">
+            <div>
+              <span class="badge badge-success">Instant Digital Walk-In Check-In</span>
+              <h2 class="card-title">Get Your Digital OPD Token in 10 Seconds</h2>
+            </div>
+            <button id="btn-prefill-demo-patient" type="button" class="btn">Auto-Fill Sample Patient</button>
+          </div>
+
+          <div class="card-body grid">
+            <form id="form-walkin-checkin">
+              <div class="grid-2 field">
+                <div>
+                  <label for="input-patient-name" class="label">Patient Full Name *</label>
+                  <input id="input-patient-name" type="text" required class="input" placeholder="e.g. Rameshwar Prasad">
+                </div>
+                <div>
+                  <label for="input-patient-phone" class="label">Mobile Number *</label>
+                  <input id="input-patient-phone" type="tel" required class="input" placeholder="e.g. +91 98765 43210">
+                </div>
+              </div>
+
+              <div class="grid-2 field">
+                <div>
+                  <label for="input-patient-age" class="label">Age &amp; Priority Category</label>
+                  <select id="input-patient-age" class="select">
+                    <option value="General">General Walk-In (Adult)</option>
+                    <option value="Senior Citizen">Senior Citizen (60+ yrs)</option>
+                    <option value="Maternal / Child">Expectant Mother / Young Child</option>
+                    <option value="Urgent Care">High Fever / Acute Pain</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="input-waiting-loc" class="label">Current Waiting Location</label>
+                  <select id="input-waiting-loc" class="select">
+                    <option value="Nearby Tea Stall / Shade">Nearby Tea Stall / Shade Outside</option>
+                    <option value="Parked Vehicle / Auto">Waiting in Vehicle / Auto</option>
+                    <option value="At Home (10 mins away)">At Home (10 mins away)</option>
+                    <option value="OPD Hall">Inside OPD Waiting Hall</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="input-patient-notes" class="label">Chief Complaint / Reason for Visit</label>
+                <input id="input-patient-notes" type="text" class="input" placeholder="e.g. Viral fever for 3 days, BP checkup...">
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">Generate Digital Token &amp; Track Live →</button>
+            </form>
+
+            <div class="standee-card">
+              <div class="label text-primary">Clinic Entrance QR Standee</div>
+              <p class="text-sm text-muted">
+                Scan at the clinic entrance gate to receive an instant web tracking link without standing in line.
+              </p>
+              <button id="btn-simulate-qr-scan" type="button" class="btn btn-success btn-block">
+                Simulate Instant QR Scan Check-In
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="workspace-grid" class="grid-layout">
+        <section id="panel-staff" class="staff-panel">
+          <div class="card">
+            <div class="card-header dark">
+              <div>
+                <span id="staff-doctor-badge" class="badge badge-success">Room 1 • Dr. R. Sharma</span>
+                <h2 class="card-title">Real-Time Doctor Chamber Dashboard</h2>
+              </div>
+              <button id="btn-quick-walkin-modal" type="button" class="btn btn-primary">+ Issue Walk-In Token</button>
+            </div>
+
+            <div class="staff-body">
+              <div class="staff-overview">
+                <div class="token-card active">
+                  <div class="flex-between">
+                    <span class="label text-success">Currently in Chamber</span>
+                    <span class="badge badge-success"><span class="dot"></span> Serving</span>
+                  </div>
+                  <div id="staff-current-token" class="token-lg">#42</div>
+                  <div id="staff-current-name" class="patient-name">Smt. Kamla Devi</div>
+                  <div id="staff-current-meta" class="patient-meta">Senior Citizen • Checked in 09:40 AM</div>
+                </div>
+
+                <div class="call-controls">
+                  <button id="btn-next-patient" type="button" class="btn-call">
+                    <div>
+                      <div class="btn-call-title">CALL NEXT PATIENT</div>
+                      <div id="btn-next-subtext" class="btn-call-sub">Advances to Token #43 • Broadcasts to all phones</div>
+                    </div>
+                    <span>→</span>
+                  </button>
+
+                  <div class="btn-row">
+                    <button id="btn-recall-token" type="button" class="btn">Recall / Bell</button>
+                    <button id="btn-skip-token" type="button" class="btn">Mark Hold/Absent</button>
+                    <button id="btn-fast-forward-3" type="button" class="btn btn-secondary">Jump to Alert</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stats-row">
+                <div class="stat-item">
+                  <span class="stat-label">Waiting</span>
+                  <strong id="metric-waiting" class="stat-count">6</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Proximity (&le;3)</span>
+                  <strong id="metric-proximity" class="stat-count text-warning">3</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">On Hold</span>
+                  <strong id="metric-skipped" class="stat-count text-danger">0</strong>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Completed</span>
+                  <strong id="metric-completed" class="stat-count text-success">3</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="toolbar">
+              <div class="filters">
+                <button type="button" data-filter="waiting" class="filter-btn active">Waiting</button>
+                <button type="button" data-filter="all" class="filter-btn">All Tokens</button>
+                <button type="button" data-filter="skipped" class="filter-btn">Hold / Missed</button>
+                <button type="button" data-filter="completed" class="filter-btn">Completed</button>
+              </div>
+              <input id="input-search-queue" type="text" class="input input-sm" placeholder="Search token # or name...">
+            </div>
+
+            <div id="staff-queue-list" class="queue-list"></div>
+          </div>
+
+          <div class="card feed-card">
+            <div class="flex-between">
+              <span class="label">Live Automated SMS / Web Alert Feed</span>
+              <button id="btn-clear-logs" type="button" class="btn btn-xs">Clear Feed</button>
+            </div>
+            <div id="alert-dispatch-log" class="log-feed"></div>
+          </div>
+        </section>
+
+        <section id="panel-patient" class="patient-panel">
+          <div class="panel-bar">
+            <div>
+              <label for="select-tracked-token" class="label">Previewing Patient Phone For:</label>
+              <div class="text-sm text-muted">Switch token to test proximity &amp; turn alerts</div>
+            </div>
+            <select id="select-tracked-token" class="select select-sm"></select>
+          </div>
+
+          <div class="phone">
+            <div class="phone-screen">
+              <div class="phone-status">
+                <span id="phone-clock">10:15 AM</span>
+                <span>2G/4G PWA • 🔋 94%</span>
+              </div>
+
+              <div class="phone-header">
+                <div>
+                  <div class="phone-eyebrow">OPD Queue Live • Connected</div>
+                  <div id="patient-clinic-title" class="phone-title">Janata Charitable Clinic — Room 1</div>
+                  <div id="patient-doctor-subtitle" class="phone-subtitle">Dr. R. Sharma (General Medicine)</div>
+                </div>
+                <button id="btn-patient-share" type="button" class="btn btn-xs">Share</button>
+              </div>
+
+              <div id="patient-proximity-banner" class="alert-banner safe"></div>
+
+              <div class="phone-content">
+                <div class="token-grid">
+                  <div class="token-box">
+                    <span class="label">Currently Serving</span>
+                    <strong id="patient-view-serving" class="token-num text-success">#42</strong>
+                    <span class="token-meta">Inside Chamber</span>
+                  </div>
+
+                  <div id="patient-your-token-card" class="token-box highlight">
+                    <span class="label text-primary">Your Token</span>
+                    <strong id="patient-view-your-token" class="token-num text-primary">#48</strong>
+                    <span id="patient-view-status-pill" class="pill text-primary">6 Tokens Away</span>
+                  </div>
+                </div>
+
+                <div class="wait-card">
+                  <div class="wait-header">
+                    <div>
+                      <span class="stat-label">Estimated Wait Time</span>
+                      <strong id="patient-view-wait-time" class="wait-time">25 mins</strong>
+                    </div>
+                    <div class="text-right">
+                      <span class="stat-label">Patients Ahead</span>
+                      <strong id="patient-view-ahead-count" class="ahead-count">5</strong>
+                    </div>
+                  </div>
+
+                  <div class="flex-between text-sm">
+                    <span id="patient-progress-label">Safe to Wait Remotely</span>
+                    <span id="patient-progress-pct" class="text-success font-bold">40%</span>
+                  </div>
+                  <div class="progress">
+                    <div id="patient-progress-bar" class="progress-bar" style="width: 40%;"></div>
+                  </div>
+                </div>
+
+                <div class="queue-section">
+                  <span class="label">Live Queue Sequence</span>
+                  <div id="patient-token-train" class="token-train"></div>
+                </div>
+
+                <div class="card card-sm">
+                  <div class="flex-between">
+                    <strong id="patient-detail-name">Rajesh Kumar (Token #48)</strong>
+                    <span id="patient-detail-category" class="badge badge-muted">General</span>
+                  </div>
+                  <div id="patient-detail-phone" class="text-sm text-muted">+91 98112 48048</div>
+
+                  <div class="flex-between gap-2">
+                    <label for="patient-update-location" class="text-sm text-muted">Waiting at:</label>
+                    <select id="patient-update-location" class="select select-sm">
+                      <option value="Nearby Tea Stall / Shade">Nearby Tea Stall / Shade</option>
+                      <option value="Parked Vehicle / Auto">Parked Vehicle / Auto</option>
+                      <option value="At Home (10 mins away)">At Home (10 mins away)</option>
+                      <option value="Stepped Out for Water/Restroom">Water / Restroom</option>
+                      <option value="OPD Hall">Inside OPD Waiting Hall</option>
+                      <option value="Outside Chamber Door">Outside Chamber Door</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid-2">
+                  <button id="btn-patient-test-alert" type="button" class="btn btn-primary">Test Alert</button>
+                  <button id="btn-patient-step-back" type="button" class="btn">Need +10 Mins</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="modal-qr" class="modal hidden">
+    <div class="modal-dialog">
+      <div class="modal-head">
+        <h3 class="modal-title">Clinic Gate QR Standee</h3>
+        <button id="btn-close-qr-modal" type="button" class="btn btn-icon">✕</button>
+      </div>
+      <p class="modal-desc">
+        Patients arriving at the clinic scan this QR code to register and receive an instant digital token on their phone.
+      </p>
+      <div class="grid-2">
+        <button id="btn-modal-go-checkin" type="button" class="btn btn-primary">Open Registration Form</button>
+        <button id="btn-modal-instant-token" type="button" class="btn btn-success">Instant 1-Click Token</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-code-files" class="modal hidden">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-head">
+        <div>
+          <h3 class="modal-title">Source Files</h3>
+          <p class="modal-desc">Clean HTML, CSS, and JS with simple classes and IDs</p>
+        </div>
+        <button id="btn-close-code-modal" type="button" class="btn btn-icon">✕</button>
+      </div>
+
+      <div class="modal-toolbar">
+        <div class="filters">
+          <button id="code-tab-html" type="button" class="filter-btn active">1. index.html</button>
+          <button id="code-tab-css" type="button" class="filter-btn">2. style.css</button>
+          <button id="code-tab-js" type="button" class="filter-btn">3. script.js</button>
+        </div>
+        <button id="btn-copy-active-code" type="button" class="btn btn-primary">Copy Current File</button>
+      </div>
+
+      <pre id="code-viewer-content" class="code-box"></pre>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toasts"></div>
+  <script src="script.js"></script>
+</body>
+</html>
