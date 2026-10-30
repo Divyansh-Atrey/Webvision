@@ -11,8 +11,8 @@ In urban and semi-urban government hospitals and charitable clinics, the daily O
 
 ---
 
-## 💡 The Solution: OPD Queue Live
-*OPD Queue Live* solves this by providing a simple, mobile-friendly interface split into two core modules:
+## 💡 The Solution: SwasthQueue
+*SwasthQueue* solves this by providing a simple, mobile-friendly interface split into two core modules:
 * *Staff Console:* A clean dashboard for the clinic receptionist or compounder to manage walk-ins and click *"Call Next Patient"* with a single button.
 * *Patient Mobile Tracker:* A live remote tracker allowing patients to view current serving tokens, estimated wait times, and proximity alerts from home, their vehicle, or a nearby tea stall.
 
